@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class ProfesoresDAO extends GenericDAO<Usuario> {
     private static final String []  columnas = {"ID Profesor","Nombre","Primer Apellido",
-            "Segundo Apellido", "CURP", "Genero", "Tipo", "ID Grupo"};
+            "Segundo Apellido", "CURP", "Genero", "ID Grupo"};
     public static DefaultTableModel modelo = new DefaultTableModel(null,columnas);
 
     private String where;

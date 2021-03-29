@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 public class AlumnoDAO extends GenericDAO<Usuario> {
     private static final String []  columnas = {"ID","Nombre","Primer Apellido",
-            "Segundo Apellido", "CURP", "Genero", "Tipo", "ID Grupo"};
+            "Segundo Apellido", "CURP", "Genero", "ID Grupo"};
     public static DefaultTableModel modelo = new DefaultTableModel(null,columnas);
 
     public String [] filas;

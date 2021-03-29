@@ -6,9 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class EvaluacionesDAO extends GenericDAO<Evaluacion> {
+public class EvaluacionesDAO extends GenericDAO<Evaluaciones> {
     @Override
-    public PreparedStatement create(Evaluacion dato, Connection conexion) throws SQLException {
+    public PreparedStatement create(Evaluaciones dato, Connection conexion) throws SQLException {
         return null;
     }
 
@@ -18,12 +18,12 @@ public class EvaluacionesDAO extends GenericDAO<Evaluacion> {
     }
 
     @Override
-    public PreparedStatement update(Evaluacion datoOriginal, Evaluacion datoActualizado, Connection conexion) throws SQLException {
+    public PreparedStatement update(Evaluaciones datoOriginal, Evaluaciones datoActualizado, Connection conexion) throws SQLException {
         return null;
     }
 
     @Override
-    public PreparedStatement delete(Evaluacion dato, Connection conexion) throws SQLException {
+    public PreparedStatement delete(Evaluaciones dato, Connection conexion) throws SQLException {
         return null;
     }
 }
