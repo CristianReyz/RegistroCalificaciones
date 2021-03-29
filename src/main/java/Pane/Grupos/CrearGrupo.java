@@ -1,11 +1,14 @@
 package Pane.Grupos;
 
 
+import Grupos.GrupoService;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.Connection;
+import java.sql.SQLException;
 import javax.swing.*;
 
 public class CrearGrupo extends JPanel{
@@ -117,7 +120,31 @@ public class CrearGrupo extends JPanel{
         config.gridy = 4;
         this.add(textCiclo, config);
 
+        JButton botonCrear = new JButton("Confirmar y crear");
+        botonCrear.setBackground(Color.DARK_GRAY);
+        botonCrear.setForeground(Color.BLACK);
+        config.gridx = 1;
+        config.gridwidth = 1;
+        config.gridy = 5;
+        botonCrear.addActionListener(e -> {
+            try {
+                crearUsuario(conexion);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
+        this.add(botonCrear, config);
 
+
+    }
+
+    private void crearUsuario(Connection conexion) throws SQLException {
+        String grado = textGrado.getText();
+        String grupo = textGrupo.getText();
+        String turno = textTurno.getText();
+        String ciclo = textCiclo.getText();
+        GrupoService service = new GrupoService();
+        service.Create(conexion,grado,grupo,turno,ciclo);
     }
 
     public Connection getConexion() {

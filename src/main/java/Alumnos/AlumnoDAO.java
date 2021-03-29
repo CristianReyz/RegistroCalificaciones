@@ -50,7 +50,6 @@ public class AlumnoDAO extends GenericDAO<Usuario> {
             if(tipo.equals("read")){
                 modelo.addRow(filas);
             }
-
         }
         return ps;
     }

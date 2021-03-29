@@ -1,20 +1,17 @@
 package Pane;
 
-import Alumnos.AlumnoService;
-import Grupos.GrupoService;
-import Pane.Alumnos.ConsultarAlumno;
-import Pane.Alumnos.ModificarAlumno;
-import Pane.Grupos.ConsultarGrupo;
-import Pane.Grupos.CrearGrupo;
-import Pane.Grupos.ModificarGrupo;
-import Pane.Profesores.ConsultarProfesor;
-import Pane.Profesores.ModificarProfesor;
-import Profesores.ProfesoresService;
+import Pane.Alumnos.*;
+import Pane.Grupos.*;
+import Pane.Materias.ConsultarMateria;
+import Pane.Materias.CrearMateria;
+import Pane.Materias.ModificarMateria;
+import Pane.Profesores.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
-import java.sql.SQLException;
+
+// aquí solo se manejan redirecciones, se declaran y se configuran los paneles y botones globales
 
 public class VentanaPrincipal extends JFrame {
 
@@ -30,20 +27,25 @@ public class VentanaPrincipal extends JFrame {
     JButton botonCerrarSesion = new JButton("Cerrar Sesion");
 
     //botones inferiores
+
+    //redireccion a paneles de modificación
     JButton botonModificarUsuario = new JButton("Modificar Miembro");
     JButton botonModificarGrupo = new JButton("Modificar Grupo");
-    JButton botonCrearNuevoIntegrante = new JButton("Inscribir");
-    JButton botonCrearUsuarioLogico = new JButton("Confirmar");
-    JButton botonCrearGrupoLogico = new JButton("Confirmar");
-    JButton botonCrearNuevoGrupo = new JButton("Crear Grupo");
+    JButton botonModificarMateria = new JButton("Modificar Materia");
 
+    //redirección a paneles de crear
+    JButton botonCrearNuevoIntegrante = new JButton("Inscribir");
+    JButton botonCrearNuevoGrupo = new JButton("Crear Grupo");
+    JButton botonCrearNuevaMateria = new JButton("Crear Materia");
+
+
+    //etiquetas para que no se vean espacios en blanco haha
     JLabel vacio = new JLabel(" ");
     JLabel vacio2 = new JLabel(" ");
     JLabel vacio3 = new JLabel(" ");
     JLabel vacio4 = new JLabel(" ");
 
-    private final Connection conexion;
-
+    //se declaran los paneles aquí para que sean globales y puedan ser manipulados fuera del constructor
     ConsultarAlumno consultarAlumnoPanel;
     ConsultarProfesor consultarProfesorPanel;
     CrearUsuario crearUsuarioPanel;
@@ -52,9 +54,13 @@ public class VentanaPrincipal extends JFrame {
     CrearGrupo crearGrupoPanel;
     ConsultarGrupo consultarGrupoPanel;
     ModificarGrupo modificarGrupoPanel;
+    ConsultarMateria consultarMateriaPanel;
+    CrearMateria crearMateriaPanel;
+    ModificarMateria modificarMateriaPanel;
 
     public VentanaPrincipal(Connection conexion) {
 
+        //aqui se inicializan los paneles para que la conexión que se recibe desde la ventana de inicio sea la correcta
         consultarAlumnoPanel = new ConsultarAlumno(conexion);
         consultarProfesorPanel = new ConsultarProfesor(conexion);
         crearUsuarioPanel = new CrearUsuario(conexion);
@@ -63,13 +69,15 @@ public class VentanaPrincipal extends JFrame {
         crearGrupoPanel = new CrearGrupo(conexion);
         consultarGrupoPanel = new ConsultarGrupo(conexion);
         modificarGrupoPanel = new ModificarGrupo(conexion);
+        consultarMateriaPanel = new ConsultarMateria(conexion);
+        crearMateriaPanel = new CrearMateria(conexion);
+        modificarMateriaPanel = new ModificarMateria(conexion);
 
         this.setSize(1000, 700);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Control Escolar");
         this.setLayout(layout);
-        this.conexion = conexion;
 
         configuracionPaneles();
 
@@ -100,6 +108,9 @@ public class VentanaPrincipal extends JFrame {
         this.add(crearGrupoPanel,config);
         this.add(consultarGrupoPanel,config);
         this.add(modificarGrupoPanel,config);
+        this.add(consultarMateriaPanel,config);
+        this.add(crearMateriaPanel,config);
+        this.add(modificarMateriaPanel,config);
 
         consultarProfesorPanel.setVisible(false);
         crearUsuarioPanel.setVisible(false);
@@ -108,6 +119,9 @@ public class VentanaPrincipal extends JFrame {
         crearGrupoPanel.setVisible(false);
         consultarGrupoPanel.setVisible(false);
         modificarGrupoPanel.setVisible(false);
+        consultarMateriaPanel.setVisible(false);
+        crearMateriaPanel.setVisible(false);
+        modificarMateriaPanel.setVisible(false);
 
     }
 
@@ -231,6 +245,12 @@ public class VentanaPrincipal extends JFrame {
         botonModificarGrupo.setBackground(Color.DARK_GRAY); botonModificarGrupo.setForeground(Color.BLACK);
         this.add(botonModificarGrupo, config);
 
+        config.gridx=1; config.gridy=4; config.gridwidth=1; config.gridheight=1; config.ipadx=100; config.ipady=10; config.weighty=0.0;
+        config.anchor=GridBagConstraints.CENTER; config.fill= GridBagConstraints.BOTH;
+        botonModificarMateria.setBackground(Color.DARK_GRAY); botonModificarMateria.setForeground(Color.BLACK);
+        this.add(botonModificarMateria, config);
+
+
         config.gridx=0; config.gridy=4; config.gridwidth=1; config.gridheight=1; config.ipadx=100; config.ipady=10; config.weighty=0.0;
         config.anchor=GridBagConstraints.CENTER; config.fill= GridBagConstraints.BOTH;
         botonCrearNuevoIntegrante.setBackground(Color.DARK_GRAY); botonCrearNuevoIntegrante.setForeground(Color.BLACK);
@@ -241,49 +261,32 @@ public class VentanaPrincipal extends JFrame {
         botonCrearNuevoGrupo.setBackground(Color.DARK_GRAY); botonCrearNuevoGrupo.setForeground(Color.BLACK);
         this.add(botonCrearNuevoGrupo, config);
 
-        config.gridx=1; config.gridy=4; config.gridwidth=1; config.gridheight=1; config.ipadx=100; config.ipady=10; config.weighty=0.0;
+        config.gridx=0; config.gridy=4; config.gridwidth=1; config.gridheight=1; config.ipadx=100; config.ipady=10; config.weighty=0.0;
         config.anchor=GridBagConstraints.CENTER; config.fill= GridBagConstraints.BOTH;
-        botonCrearUsuarioLogico.setBackground(Color.DARK_GRAY); botonCrearUsuarioLogico.setForeground(Color.BLACK);
-        this.add(botonCrearUsuarioLogico, config);
+        botonCrearNuevaMateria.setBackground(Color.DARK_GRAY); botonCrearNuevaMateria.setForeground(Color.BLACK);
+        this.add(botonCrearNuevaMateria, config);
 
-        config.gridx=1; config.gridy=4; config.gridwidth=1; config.gridheight=1; config.ipadx=100; config.ipady=10; config.weighty=0.0;
-        config.anchor=GridBagConstraints.CENTER; config.fill= GridBagConstraints.BOTH;
-        botonCrearGrupoLogico.setBackground(Color.DARK_GRAY); botonCrearGrupoLogico.setForeground(Color.BLACK);
-        this.add(botonCrearGrupoLogico, config);
-
-
-        botonCrearUsuarioLogico.setVisible(false);
         botonCrearNuevoGrupo.setVisible(false);
-        botonCrearGrupoLogico.setVisible(false);
         botonModificarGrupo.setVisible(false);
+        botonCrearNuevaMateria.setVisible(false);
+        botonModificarMateria.setVisible(false);
     }
 
     private void eventos(){
-        //eventos de botones superiores (solo banderas)
-        botonCerrarSesion.addActionListener(e -> this.dispose());
-        botonProfesores.addActionListener(e -> cargarInterfazInicialProfesores());
-        botonAlumnos.addActionListener(e -> cargarInterfazInicialAlumnos());
+        //eventos de botones superiores
+        botonCerrarSesion.addActionListener(v -> this.dispose());
+        botonProfesores.addActionListener(v -> cargarInterfazInicialProfesores());
+        botonAlumnos.addActionListener(v -> cargarInterfazInicialAlumnos());
         botonGrupos.addActionListener(v-> cargarInterfazInicialGrupos());
+        botonMaterias.addActionListener(v-> cargarInterfazInicialMaterias());
 
-
-        botonCrearNuevoIntegrante.addActionListener(e-> cargarPanelCrearNuevoIntegrante());
-        botonCrearUsuarioLogico.addActionListener(e-> {
-            try {
-                botonCrearUsuarioLogico();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        });
+        //eventos de botones inferiores
+        botonCrearNuevoIntegrante.addActionListener(v-> cargarPanelCrearNuevoIntegrante());
         botonModificarUsuario.addActionListener(v-> cargarPanelModificarUsuario());
         botonCrearNuevoGrupo.addActionListener(v-> cargarPanelCrearNuevoGrupo());
-        botonCrearGrupoLogico.addActionListener(v-> {
-            try {
-                crearGrupoLogico();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        });
         botonModificarGrupo.addActionListener(v-> cargarPanelModificarGrupo());
+        botonCrearNuevaMateria.addActionListener(v->cargarPanelCrearNuevaMateria());
+        botonModificarMateria.addActionListener(v->cargarPanelModificarMateria());
     }
 
     //USUARIOS (alumnos y profesores)
@@ -297,12 +300,16 @@ public class VentanaPrincipal extends JFrame {
             crearGrupoPanel.setVisible(false);
             consultarGrupoPanel.setVisible(false);
             modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
 
             botonModificarUsuario.setVisible(true);
             botonCrearNuevoIntegrante.setVisible(true);
-            botonCrearUsuarioLogico.setVisible(false);
-            botonCrearGrupoLogico.setVisible(false);
             botonModificarGrupo.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
         }
     }
 
@@ -316,12 +323,16 @@ public class VentanaPrincipal extends JFrame {
             crearGrupoPanel.setVisible(false);
             consultarGrupoPanel.setVisible(false);
             modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
 
             botonModificarUsuario.setVisible(true);
             botonCrearNuevoIntegrante.setVisible(true);
-            botonCrearUsuarioLogico.setVisible(false);
-            botonCrearGrupoLogico.setVisible(false);
             botonModificarGrupo.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
         }
     }
 
@@ -335,31 +346,17 @@ public class VentanaPrincipal extends JFrame {
             crearGrupoPanel.setVisible(false);
             consultarGrupoPanel.setVisible(false);
             modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
 
             botonCrearNuevoIntegrante.setVisible(false);
             botonModificarUsuario.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
             vacio.setVisible(true);
-            botonCrearUsuarioLogico.setVisible(true);
-            botonCrearGrupoLogico.setVisible(false);
             botonModificarGrupo.setVisible(false);
-        }
-    }
-
-    private void botonCrearUsuarioLogico() throws SQLException {
-        String nombre = crearUsuarioPanel.textNombre.getText();
-        String primerApellido = crearUsuarioPanel.textPrimerApellido.getText();
-        String segundoApellido = crearUsuarioPanel.textSegundoApellido.getText();
-        String curp = crearUsuarioPanel.textCurp.getText();
-        String genero = (String) crearUsuarioPanel.comboGenero.getSelectedItem();
-        String tipoSeleccionado = (String) crearUsuarioPanel.comboTipo.getSelectedItem();
-        int idGrupo = Integer.parseInt(crearUsuarioPanel.textIdGrupo.getText());
-        assert tipoSeleccionado != null;
-        if(tipoSeleccionado.equals("ALUMNO")){
-            AlumnoService service = new AlumnoService();
-            service.Create(conexion,nombre,primerApellido,segundoApellido,curp,genero,tipoSeleccionado,idGrupo);
-        }else if(tipoSeleccionado.equals("PROFESOR")){
-            ProfesoresService service = new ProfesoresService();
-            service.Create(conexion,nombre,primerApellido,segundoApellido,curp,genero,tipoSeleccionado,idGrupo);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
         }
     }
 
@@ -375,12 +372,18 @@ public class VentanaPrincipal extends JFrame {
             modificarGrupoPanel.setVisible(false);
             botonCrearNuevoIntegrante.setVisible(false);
             botonModificarUsuario.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
+
             modificarProfesorPanel.setVisible(false);
             consultarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
             vacio.setVisible(true);
             vacio2.setVisible(true);
-            botonCrearUsuarioLogico.setVisible(false);
-            botonCrearGrupoLogico.setVisible(false);
+
             //en caso contrario probar con profesores ya que igualmente es de tipo usuario
         }else if(!modificarProfesorPanel.isVisible()&&consultarProfesorPanel.isVisible()){
             consultarAlumnoPanel.setVisible(false);
@@ -390,13 +393,19 @@ public class VentanaPrincipal extends JFrame {
             crearGrupoPanel.setVisible(false);
             modificarGrupoPanel.setVisible(false);
             consultarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
             botonCrearNuevoIntegrante.setVisible(false);
             botonModificarUsuario.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
+
             modificarProfesorPanel.setVisible(true);
             vacio.setVisible(true);
             vacio2.setVisible(true);
-            botonCrearUsuarioLogico.setVisible(false);
-            botonCrearGrupoLogico.setVisible(false);
+
         }
     }
 
@@ -412,14 +421,17 @@ public class VentanaPrincipal extends JFrame {
             crearGrupoPanel.setVisible(true);
             consultarGrupoPanel.setVisible(false);
             modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
 
             botonCrearNuevoIntegrante.setVisible(false);
             botonModificarUsuario.setVisible(false);
             vacio.setVisible(true);
-            botonCrearUsuarioLogico.setVisible(false);
-            botonCrearGrupoLogico.setVisible(true);
             botonCrearNuevoGrupo.setVisible(false);
             botonModificarGrupo.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
         }
     }
 
@@ -433,24 +445,18 @@ public class VentanaPrincipal extends JFrame {
             crearGrupoPanel.setVisible(false);
             consultarGrupoPanel.setVisible(true);
             modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
 
             botonCrearNuevoIntegrante.setVisible(false);
             botonModificarUsuario.setVisible(false);
             botonModificarGrupo.setVisible(true);
             vacio.setVisible(true);
-            botonCrearUsuarioLogico.setVisible(false);
-            botonCrearGrupoLogico.setVisible(false);
             botonCrearNuevoGrupo.setVisible(true);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
         }
-    }
-
-    private void crearGrupoLogico() throws SQLException {
-        String grado = crearGrupoPanel.textGrado.getText();
-        String grupo = crearGrupoPanel.textGrupo.getText();
-        String turno = crearGrupoPanel.textTurno.getText();
-        String ciclo = crearGrupoPanel.textCiclo.getText();
-        GrupoService service = new GrupoService();
-        service.Create(conexion,grado,grupo,turno,ciclo);
     }
 
     private void cargarPanelModificarGrupo() {
@@ -463,14 +469,90 @@ public class VentanaPrincipal extends JFrame {
             crearGrupoPanel.setVisible(false);
             consultarGrupoPanel.setVisible(false);
             modificarGrupoPanel.setVisible(true);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
 
             botonCrearNuevoIntegrante.setVisible(false);
             botonModificarUsuario.setVisible(false);
             botonModificarGrupo.setVisible(false);
             vacio.setVisible(true);
-            botonCrearUsuarioLogico.setVisible(false);
-            botonCrearGrupoLogico.setVisible(false);
             botonCrearNuevoGrupo.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
         }
     }
+
+    //MATERIAS
+
+    private void cargarInterfazInicialMaterias(){
+        if(!consultarMateriaPanel.isVisible()){
+            consultarAlumnoPanel.setVisible(false);
+            consultarProfesorPanel.setVisible(false);
+            crearUsuarioPanel.setVisible(false);
+            modificarAlumnoPanel.setVisible(false);
+            modificarProfesorPanel.setVisible(false);
+            crearGrupoPanel.setVisible(false);
+            consultarGrupoPanel.setVisible(false);
+            modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(true);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
+
+            botonModificarUsuario.setVisible(false);
+            botonCrearNuevoIntegrante.setVisible(false);
+            botonModificarGrupo.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
+            botonCrearNuevaMateria.setVisible(true);
+            botonModificarMateria.setVisible(true);
+        }
+    }
+
+    private void cargarPanelCrearNuevaMateria(){
+        if(!crearMateriaPanel.isVisible()){
+            consultarAlumnoPanel.setVisible(false);
+            consultarProfesorPanel.setVisible(false);
+            crearUsuarioPanel.setVisible(false);
+            modificarAlumnoPanel.setVisible(false);
+            modificarProfesorPanel.setVisible(false);
+            crearGrupoPanel.setVisible(false);
+            consultarGrupoPanel.setVisible(false);
+            modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(true);
+            modificarMateriaPanel.setVisible(false);
+
+            botonModificarUsuario.setVisible(false);
+            botonCrearNuevoIntegrante.setVisible(false);
+            botonModificarGrupo.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
+        }
+    }
+
+    private void cargarPanelModificarMateria(){
+        if(!modificarMateriaPanel.isVisible()){
+            consultarAlumnoPanel.setVisible(false);
+            consultarProfesorPanel.setVisible(false);
+            crearUsuarioPanel.setVisible(false);
+            modificarAlumnoPanel.setVisible(false);
+            modificarProfesorPanel.setVisible(false);
+            crearGrupoPanel.setVisible(false);
+            consultarGrupoPanel.setVisible(false);
+            modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(true);
+
+            botonModificarUsuario.setVisible(false);
+            botonCrearNuevoIntegrante.setVisible(false);
+            botonModificarGrupo.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
+        }
+    }
+
+
 }

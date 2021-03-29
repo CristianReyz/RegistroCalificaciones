@@ -1,10 +1,14 @@
 package Pane;
 
+import Alumnos.AlumnoService;
+import Profesores.ProfesoresService;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.Connection;
+import java.sql.SQLException;
 import javax.swing.*;
 
 public class CrearUsuario extends JPanel{
@@ -161,13 +165,39 @@ public class CrearUsuario extends JPanel{
         config.gridy = 7;
         this.add(textIdGrupo, config);
 
+        JButton botonCrear = new JButton("Confirmar y crear");
+        botonCrear.setBackground(Color.DARK_GRAY);
+        botonCrear.setForeground(Color.BLACK);
+        config.gridx = 1;
+        config.gridwidth = 1;
+        config.gridy = 8;
+        botonCrear.addActionListener(e -> {
+            try {
+                crearUsuario(conexion);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
+        this.add(botonCrear, config);
+
     }
 
-    public Connection getConexion() {
-        return conexion;
-    }
+    private void crearUsuario(Connection conexion) throws SQLException {
+        String nombre = textNombre.getText();
+        String primerApellido = textPrimerApellido.getText();
+        String segundoApellido = textSegundoApellido.getText();
+        String curp = textCurp.getText();
+        String genero = (String) comboGenero.getSelectedItem();
+        String tipoSeleccionado = (String) comboTipo.getSelectedItem();
+        int idGrupo = Integer.parseInt(textIdGrupo.getText());
+        assert tipoSeleccionado != null;
+        if(tipoSeleccionado.equals("ALUMNO")){
+            AlumnoService service = new AlumnoService();
+            service.Create(conexion,nombre,primerApellido,segundoApellido,curp,genero,tipoSeleccionado,idGrupo);
+        }else if(tipoSeleccionado.equals("PROFESOR")){
+            ProfesoresService service = new ProfesoresService();
+            service.Create(conexion,nombre,primerApellido,segundoApellido,curp,genero,tipoSeleccionado,idGrupo);
+        }
 
-    public void setConexion(Connection conexion) {
-        this.conexion = conexion;
     }
 }
