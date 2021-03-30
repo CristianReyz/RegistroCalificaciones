@@ -1,6 +1,9 @@
 package Pane;
 
 import Pane.Alumnos.*;
+import Pane.Evaluaciones.ConsultarEvaluacion;
+import Pane.Evaluaciones.CrearEvaluacion;
+import Pane.Evaluaciones.ModificarEvaluacion;
 import Pane.Grupos.*;
 import Pane.Materias.ConsultarMateria;
 import Pane.Materias.CrearMateria;
@@ -32,11 +35,13 @@ public class VentanaPrincipal extends JFrame {
     JButton botonModificarUsuario = new JButton("Modificar Miembro");
     JButton botonModificarGrupo = new JButton("Modificar Grupo");
     JButton botonModificarMateria = new JButton("Modificar Materia");
+    JButton botonModificarEvaluacion = new JButton("Modificar Evaluacion");
 
     //redirección a paneles de crear
     JButton botonCrearNuevoIntegrante = new JButton("Inscribir");
     JButton botonCrearNuevoGrupo = new JButton("Crear Grupo");
     JButton botonCrearNuevaMateria = new JButton("Crear Materia");
+    JButton botonCrearNuevaEvaluacion = new JButton("Registrar Evaluacion");
 
 
     //etiquetas para que no se vean espacios en blanco haha
@@ -57,6 +62,9 @@ public class VentanaPrincipal extends JFrame {
     ConsultarMateria consultarMateriaPanel;
     CrearMateria crearMateriaPanel;
     ModificarMateria modificarMateriaPanel;
+    ConsultarEvaluacion consultarEvaluacionPanel;
+    CrearEvaluacion crearEvaluacionPanel;
+    ModificarEvaluacion modificarEvaluacionPanel;
 
     public VentanaPrincipal(Connection conexion) {
 
@@ -72,6 +80,9 @@ public class VentanaPrincipal extends JFrame {
         consultarMateriaPanel = new ConsultarMateria(conexion);
         crearMateriaPanel = new CrearMateria(conexion);
         modificarMateriaPanel = new ModificarMateria(conexion);
+        consultarEvaluacionPanel = new ConsultarEvaluacion(conexion);
+        crearEvaluacionPanel = new CrearEvaluacion(conexion);
+        modificarEvaluacionPanel = new ModificarEvaluacion(conexion);
 
         this.setSize(1000, 700);
         this.setLocationRelativeTo(null);
@@ -111,6 +122,9 @@ public class VentanaPrincipal extends JFrame {
         this.add(consultarMateriaPanel,config);
         this.add(crearMateriaPanel,config);
         this.add(modificarMateriaPanel,config);
+        this.add(consultarEvaluacionPanel,config);
+        this.add(crearEvaluacionPanel,config);
+        this.add(modificarEvaluacionPanel,config);
 
         consultarProfesorPanel.setVisible(false);
         crearUsuarioPanel.setVisible(false);
@@ -122,6 +136,9 @@ public class VentanaPrincipal extends JFrame {
         consultarMateriaPanel.setVisible(false);
         crearMateriaPanel.setVisible(false);
         modificarMateriaPanel.setVisible(false);
+        consultarEvaluacionPanel.setVisible(false);
+        crearEvaluacionPanel.setVisible(false);
+        modificarEvaluacionPanel.setVisible(false);
 
     }
 
@@ -250,6 +267,11 @@ public class VentanaPrincipal extends JFrame {
         botonModificarMateria.setBackground(Color.DARK_GRAY); botonModificarMateria.setForeground(Color.BLACK);
         this.add(botonModificarMateria, config);
 
+        config.gridx=1; config.gridy=4; config.gridwidth=1; config.gridheight=1; config.ipadx=100; config.ipady=10; config.weighty=0.0;
+        config.anchor=GridBagConstraints.CENTER; config.fill= GridBagConstraints.BOTH;
+        botonModificarEvaluacion.setBackground(Color.DARK_GRAY); botonModificarEvaluacion.setForeground(Color.BLACK);
+        this.add(botonModificarEvaluacion, config);
+
 
         config.gridx=0; config.gridy=4; config.gridwidth=1; config.gridheight=1; config.ipadx=100; config.ipady=10; config.weighty=0.0;
         config.anchor=GridBagConstraints.CENTER; config.fill= GridBagConstraints.BOTH;
@@ -266,10 +288,17 @@ public class VentanaPrincipal extends JFrame {
         botonCrearNuevaMateria.setBackground(Color.DARK_GRAY); botonCrearNuevaMateria.setForeground(Color.BLACK);
         this.add(botonCrearNuevaMateria, config);
 
+        config.gridx=0; config.gridy=4; config.gridwidth=1; config.gridheight=1; config.ipadx=100; config.ipady=10; config.weighty=0.0;
+        config.anchor=GridBagConstraints.CENTER; config.fill= GridBagConstraints.BOTH;
+        botonCrearNuevaEvaluacion.setBackground(Color.DARK_GRAY); botonCrearNuevaEvaluacion.setForeground(Color.BLACK);
+        this.add(botonCrearNuevaEvaluacion, config);
+
         botonCrearNuevoGrupo.setVisible(false);
         botonModificarGrupo.setVisible(false);
         botonCrearNuevaMateria.setVisible(false);
         botonModificarMateria.setVisible(false);
+        botonCrearNuevaEvaluacion.setVisible(false);
+        botonModificarEvaluacion.setVisible(false);
     }
 
     private void eventos(){
@@ -279,6 +308,7 @@ public class VentanaPrincipal extends JFrame {
         botonAlumnos.addActionListener(v -> cargarInterfazInicialAlumnos());
         botonGrupos.addActionListener(v-> cargarInterfazInicialGrupos());
         botonMaterias.addActionListener(v-> cargarInterfazInicialMaterias());
+        botonEvaluaciones.addActionListener(v-> cargarInterfazInicialEvaluaciones());
 
         //eventos de botones inferiores
         botonCrearNuevoIntegrante.addActionListener(v-> cargarPanelCrearNuevoIntegrante());
@@ -287,6 +317,8 @@ public class VentanaPrincipal extends JFrame {
         botonModificarGrupo.addActionListener(v-> cargarPanelModificarGrupo());
         botonCrearNuevaMateria.addActionListener(v->cargarPanelCrearNuevaMateria());
         botonModificarMateria.addActionListener(v->cargarPanelModificarMateria());
+        botonCrearNuevaEvaluacion.addActionListener(v->cargarPanelCrearNuevaEvaluacion());
+        botonModificarEvaluacion.addActionListener(v->cargarPanelModificarEvaluacion());
     }
 
     //USUARIOS (alumnos y profesores)
@@ -303,6 +335,9 @@ public class VentanaPrincipal extends JFrame {
             consultarMateriaPanel.setVisible(false);
             crearMateriaPanel.setVisible(false);
             modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             botonModificarUsuario.setVisible(true);
             botonCrearNuevoIntegrante.setVisible(true);
@@ -310,6 +345,8 @@ public class VentanaPrincipal extends JFrame {
             botonCrearNuevaMateria.setVisible(false);
             botonModificarMateria.setVisible(false);
             botonCrearNuevoGrupo.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
         }
     }
 
@@ -326,6 +363,9 @@ public class VentanaPrincipal extends JFrame {
             consultarMateriaPanel.setVisible(false);
             crearMateriaPanel.setVisible(false);
             modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             botonModificarUsuario.setVisible(true);
             botonCrearNuevoIntegrante.setVisible(true);
@@ -333,6 +373,8 @@ public class VentanaPrincipal extends JFrame {
             botonCrearNuevaMateria.setVisible(false);
             botonModificarMateria.setVisible(false);
             botonCrearNuevoGrupo.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
         }
     }
 
@@ -349,6 +391,9 @@ public class VentanaPrincipal extends JFrame {
             consultarMateriaPanel.setVisible(false);
             crearMateriaPanel.setVisible(false);
             modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             botonCrearNuevoIntegrante.setVisible(false);
             botonModificarUsuario.setVisible(false);
@@ -357,6 +402,8 @@ public class VentanaPrincipal extends JFrame {
             botonModificarGrupo.setVisible(false);
             botonCrearNuevaMateria.setVisible(false);
             botonModificarMateria.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
         }
     }
 
@@ -377,12 +424,17 @@ public class VentanaPrincipal extends JFrame {
             botonCrearNuevoGrupo.setVisible(false);
             crearMateriaPanel.setVisible(false);
             modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             modificarProfesorPanel.setVisible(false);
             consultarGrupoPanel.setVisible(false);
             consultarMateriaPanel.setVisible(false);
             vacio.setVisible(true);
             vacio2.setVisible(true);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
 
             //en caso contrario probar con profesores ya que igualmente es de tipo usuario
         }else if(!modificarProfesorPanel.isVisible()&&consultarProfesorPanel.isVisible()){
@@ -401,10 +453,15 @@ public class VentanaPrincipal extends JFrame {
             botonCrearNuevoGrupo.setVisible(false);
             crearMateriaPanel.setVisible(false);
             modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             modificarProfesorPanel.setVisible(true);
             vacio.setVisible(true);
             vacio2.setVisible(true);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
 
         }
     }
@@ -424,6 +481,9 @@ public class VentanaPrincipal extends JFrame {
             consultarMateriaPanel.setVisible(false);
             crearMateriaPanel.setVisible(false);
             modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             botonCrearNuevoIntegrante.setVisible(false);
             botonModificarUsuario.setVisible(false);
@@ -432,6 +492,8 @@ public class VentanaPrincipal extends JFrame {
             botonModificarGrupo.setVisible(false);
             botonCrearNuevaMateria.setVisible(false);
             botonModificarMateria.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
         }
     }
 
@@ -448,6 +510,9 @@ public class VentanaPrincipal extends JFrame {
             consultarMateriaPanel.setVisible(false);
             crearMateriaPanel.setVisible(false);
             modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             botonCrearNuevoIntegrante.setVisible(false);
             botonModificarUsuario.setVisible(false);
@@ -456,6 +521,8 @@ public class VentanaPrincipal extends JFrame {
             botonCrearNuevoGrupo.setVisible(true);
             botonCrearNuevaMateria.setVisible(false);
             botonModificarMateria.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
         }
     }
 
@@ -472,6 +539,9 @@ public class VentanaPrincipal extends JFrame {
             consultarMateriaPanel.setVisible(false);
             crearMateriaPanel.setVisible(false);
             modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             botonCrearNuevoIntegrante.setVisible(false);
             botonModificarUsuario.setVisible(false);
@@ -480,6 +550,8 @@ public class VentanaPrincipal extends JFrame {
             botonCrearNuevoGrupo.setVisible(false);
             botonCrearNuevaMateria.setVisible(false);
             botonModificarMateria.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
         }
     }
 
@@ -498,6 +570,9 @@ public class VentanaPrincipal extends JFrame {
             consultarMateriaPanel.setVisible(true);
             crearMateriaPanel.setVisible(false);
             modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             botonModificarUsuario.setVisible(false);
             botonCrearNuevoIntegrante.setVisible(false);
@@ -505,6 +580,8 @@ public class VentanaPrincipal extends JFrame {
             botonCrearNuevoGrupo.setVisible(false);
             botonCrearNuevaMateria.setVisible(true);
             botonModificarMateria.setVisible(true);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
         }
     }
 
@@ -521,6 +598,9 @@ public class VentanaPrincipal extends JFrame {
             consultarMateriaPanel.setVisible(false);
             crearMateriaPanel.setVisible(true);
             modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             botonModificarUsuario.setVisible(false);
             botonCrearNuevoIntegrante.setVisible(false);
@@ -528,6 +608,8 @@ public class VentanaPrincipal extends JFrame {
             botonCrearNuevoGrupo.setVisible(false);
             botonCrearNuevaMateria.setVisible(false);
             botonModificarMateria.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
         }
     }
 
@@ -544,6 +626,9 @@ public class VentanaPrincipal extends JFrame {
             consultarMateriaPanel.setVisible(false);
             crearMateriaPanel.setVisible(false);
             modificarMateriaPanel.setVisible(true);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
 
             botonModificarUsuario.setVisible(false);
             botonCrearNuevoIntegrante.setVisible(false);
@@ -551,6 +636,94 @@ public class VentanaPrincipal extends JFrame {
             botonCrearNuevoGrupo.setVisible(false);
             botonCrearNuevaMateria.setVisible(false);
             botonModificarMateria.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
+        }
+    }
+
+    //EVALUACIONES
+
+    private void cargarInterfazInicialEvaluaciones(){
+        if(!consultarEvaluacionPanel.isVisible()){
+            consultarAlumnoPanel.setVisible(false);
+            consultarProfesorPanel.setVisible(false);
+            crearUsuarioPanel.setVisible(false);
+            modificarAlumnoPanel.setVisible(false);
+            modificarProfesorPanel.setVisible(false);
+            crearGrupoPanel.setVisible(false);
+            consultarGrupoPanel.setVisible(false);
+            modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(true);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(false);
+
+            botonModificarUsuario.setVisible(false);
+            botonCrearNuevoIntegrante.setVisible(false);
+            botonModificarGrupo.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(true);
+            botonModificarEvaluacion.setVisible(true);
+        }
+    }
+
+    private void cargarPanelCrearNuevaEvaluacion(){
+        if(!crearEvaluacionPanel.isVisible()){
+            consultarAlumnoPanel.setVisible(false);
+            consultarProfesorPanel.setVisible(false);
+            crearUsuarioPanel.setVisible(false);
+            modificarAlumnoPanel.setVisible(false);
+            modificarProfesorPanel.setVisible(false);
+            crearGrupoPanel.setVisible(false);
+            consultarGrupoPanel.setVisible(false);
+            modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(true);
+            modificarEvaluacionPanel.setVisible(false);
+
+            botonModificarUsuario.setVisible(false);
+            botonCrearNuevoIntegrante.setVisible(false);
+            botonModificarGrupo.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
+        }
+    }
+
+    private void cargarPanelModificarEvaluacion(){
+        if(!modificarEvaluacionPanel.isVisible()){
+            consultarAlumnoPanel.setVisible(false);
+            consultarProfesorPanel.setVisible(false);
+            crearUsuarioPanel.setVisible(false);
+            modificarAlumnoPanel.setVisible(false);
+            modificarProfesorPanel.setVisible(false);
+            crearGrupoPanel.setVisible(false);
+            consultarGrupoPanel.setVisible(false);
+            modificarGrupoPanel.setVisible(false);
+            consultarMateriaPanel.setVisible(false);
+            crearMateriaPanel.setVisible(false);
+            modificarMateriaPanel.setVisible(false);
+            consultarEvaluacionPanel.setVisible(false);
+            crearEvaluacionPanel.setVisible(false);
+            modificarEvaluacionPanel.setVisible(true);
+
+            botonModificarUsuario.setVisible(false);
+            botonCrearNuevoIntegrante.setVisible(false);
+            botonModificarGrupo.setVisible(false);
+            botonCrearNuevoGrupo.setVisible(false);
+            botonCrearNuevaMateria.setVisible(false);
+            botonModificarMateria.setVisible(false);
+            botonCrearNuevaEvaluacion.setVisible(false);
+            botonModificarEvaluacion.setVisible(false);
         }
     }
 
