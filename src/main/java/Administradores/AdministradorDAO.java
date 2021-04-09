@@ -9,18 +9,13 @@ import java.sql.SQLException;
 
 public class AdministradorDAO{
 
-    public static boolean sesion = false;
-
     protected void IniciarSesion(Connection conexion, Administrador iniciado) throws SQLException {
         String query = "SELECT * FROM administradores WHERE nombreAdministrador = '"+iniciado.getNombreUsuario()+
                 "' AND password = '"+iniciado.getPassword() +"'";
         PreparedStatement ps = conexion.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
-        if (rs.next()){
-            sesion = true;
-            iniciado.setId(rs.getInt("idAdministrador"));
-            iniciado.setGenero(rs.getString("genero"));
-            iniciado.setCorreo(rs.getString("correo"));
+
+        if(rs.next()){
             VentanaPrincipal inicio = new VentanaPrincipal(conexion);
             inicio.setVisible(true);
         }

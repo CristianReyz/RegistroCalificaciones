@@ -71,8 +71,8 @@ public class AlumnoService {
         alumnoVirtual.setSegundoApellido(DAO.filas[3]);
         alumnoVirtual.setCURP(DAO.filas[4]);
         alumnoVirtual.setGenero(DAO.filas[5]);
-        alumnoVirtual.setTipo(DAO.filas[6]);
-        alumnoVirtual.setIdGrupo(Integer.parseInt(DAO.filas[7]));
+        //alumnoVirtual.setTipo(DAO.filas[6]);
+        alumnoVirtual.setIdGrupo(Integer.parseInt(DAO.filas[6]));
         return alumnoVirtual;
     }
 

@@ -15,7 +15,6 @@ public class VentanaInicio extends JFrame {
     public final static Connection conexion = Conexion.conecToDB();
 
     InicioSesion inicio = new InicioSesion();
-    //CrearUsuario crearUsuario = new CrearUsuario();
 
     JButton botonIniciarSesion = new JButton("Iniciar Sesion");
 
