@@ -25,7 +25,9 @@ public class ProfesoresDAO extends GenericDAO<Usuario> {
 
     @Override
     public PreparedStatement create(Usuario profesor, Connection conexion) throws SQLException {
-        String query = "INSERT INTO profesores(nombreProfesor,primerApellido,SegundoApellido,CURP,genero,idGrupo) VALUES(?,?,?,?,?,?);";
+
+        String query = "INSERT INTO profesores(idProfesor,nombreProfesor,primerApellido,SegundoApellido,CURP,genero,idGrupo) " +
+                "VALUES(idProfesor.nextval,?,?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(query);
         ps.setString(1,profesor.getNombre());
         ps.setString(2,profesor.getPrimerApellido());

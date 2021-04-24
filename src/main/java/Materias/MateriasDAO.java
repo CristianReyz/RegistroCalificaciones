@@ -23,7 +23,7 @@ public class MateriasDAO extends GenericDAO<Materias> {
 
     @Override
     public PreparedStatement create(Materias nuevaMateria, Connection conexion) throws SQLException {
-        String query = "INSERT INTO materias(nombre, area) VALUES(?,?);";
+        String query = "INSERT INTO materias(idMateria,nombre, area) VALUES(idMateria.nextval,?,?)";
         PreparedStatement ps = conexion.prepareStatement(query);
         ps.setString(1,nuevaMateria.getNombre());
         ps.setString(2,nuevaMateria.getArea());

@@ -73,8 +73,8 @@ public class ProfesoresService {
         profesorVirtual.setSegundoApellido(DAO.filas[3]);
         profesorVirtual.setCURP(DAO.filas[4]);
         profesorVirtual.setGenero(DAO.filas[5]);
-        profesorVirtual.setTipo(DAO.filas[6]);
-        profesorVirtual.setIdGrupo(Integer.parseInt(DAO.filas[7]));
+        //profesorVirtual.setTipo(DAO.filas[6]);
+        profesorVirtual.setIdGrupo(Integer.parseInt(DAO.filas[6]));
         return profesorVirtual;
     }
 

@@ -26,7 +26,8 @@ public class EvaluacionesDAO extends GenericDAO<Evaluaciones> {
 
     @Override
     public PreparedStatement create(Evaluaciones evaluacion, Connection conexion) throws SQLException {
-        String query = "INSERT INTO evaluaciones(evaluacion,calificacion,estado,ciclo,idMateria,idAlumno) VALUES(?,?,?,?,?,?);";
+        String query = "INSERT INTO evaluaciones(idEvaluacion, evaluacion,calificacion,estado,ciclo,idMateria,idAlumno) " +
+                "VALUES(idEvaluacion.nextval ,?,?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(query);
         ps.setString(1,evaluacion.getEvaluacion());
         ps.setString(2,evaluacion.getCalificacion());

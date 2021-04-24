@@ -25,7 +25,7 @@ public class GrupoDAO extends GenericDAO<Grupos> {
 
     @Override
     public PreparedStatement create(Grupos nuevoGrupos, Connection conexion) throws SQLException {
-        String query = "INSERT INTO grupos(grado,grupo,turno,ciclo)VALUES(?,?,?,?);";
+        String query = "INSERT INTO grupos(idGrupo,grado,grupo,turno,ciclo)VALUES(idGrupo.nextval,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(query);
         ps.setString(1, nuevoGrupos.getGrado());
         ps.setString(2, nuevoGrupos.getGrupo());

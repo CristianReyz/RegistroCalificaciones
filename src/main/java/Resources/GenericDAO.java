@@ -19,6 +19,7 @@ public abstract class GenericDAO<Tipo> {
         PreparedStatement ps;
         ps = create(dato,conex);
         ps.executeUpdate();
+        commit(conex);
     }
 
     public void eliminar(Tipo dato, Connection conex) throws SQLException{
@@ -26,6 +27,7 @@ public abstract class GenericDAO<Tipo> {
         ResultSet rs = null;
         ps = delete(dato,conex);
         ps.executeUpdate();
+        commit(conex);
     }
 
     public void leer(String tipo, Connection conex) throws SQLException{
@@ -40,5 +42,14 @@ public abstract class GenericDAO<Tipo> {
         ResultSet rs = null;
         ps = update(datoOriginal,datoActualizado,conex);
         ps.executeUpdate();
+        commit(conex);
+
+    }
+
+    private void commit(Connection conexion) throws SQLException{
+        PreparedStatement commitPs;
+        String commit = "commit";
+        commitPs = conexion.prepareStatement(commit);
+        commitPs.executeQuery();
     }
 }

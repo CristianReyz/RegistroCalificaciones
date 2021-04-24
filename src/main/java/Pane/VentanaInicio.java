@@ -25,7 +25,7 @@ public class VentanaInicio extends JFrame {
         this.setSize(700, 500);  // asignamos el ancho y alto a la venta JFrame
         this.setLocationRelativeTo(null);  // centramos la ventana en pantalla
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Renta Motos");
+        this.setTitle("Registro de Calificaciones");
         GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);
 
