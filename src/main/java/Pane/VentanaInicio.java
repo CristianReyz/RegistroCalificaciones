@@ -21,7 +21,7 @@ public class VentanaInicio extends JFrame {
     JLabel vacio = new JLabel(" ");
     JLabel vacio3 = new JLabel(" ");
 
-    public VentanaInicio() throws SQLException {
+    public VentanaInicio() {
         this.setSize(700, 500);  // asignamos el ancho y alto a la venta JFrame
         this.setLocationRelativeTo(null);  // centramos la ventana en pantalla
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,13 +92,14 @@ public class VentanaInicio extends JFrame {
         vacio.setVisible(true);
         vacio3.setVisible(false);
 
-        botonIniciarSesion.addActionListener(e -> {
+        botonIniciarSesion.addActionListener(v-> {
             try {
                 iniciarSesion();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         });
+
     }
 
 

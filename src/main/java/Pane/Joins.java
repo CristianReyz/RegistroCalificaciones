@@ -120,7 +120,13 @@ public class Joins extends JPanel {
 
         comboParametro.setVisible(false);
 
-        comboReportes.addActionListener(v -> mostrarParametros());
+        comboReportes.addActionListener(v -> {
+            try {
+                mostrarParametros(conexion);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
         comboParametro.addActionListener(v-> {
             try {
                 consultar(conexion);
@@ -130,15 +136,30 @@ public class Joins extends JPanel {
         });
     }
 
-    private void mostrarParametros(){
+    private void mostrarParametros(Connection conexion) throws SQLException {
         String parametroSeleccionado = (String) comboReportes.getSelectedItem();
         assert parametroSeleccionado != null;
         if(!parametroSeleccionado.equals("SELECCIONA")){
-            if(parametroSeleccionado.equals("REPORTE 1") || parametroSeleccionado.equals("REPORTE 6")) {
-                comboParametro.setVisible(true);
-            }else{
-                //reporte 10 y 14
+            comboParametro.setVisible(true);
+            JoinsService service = new JoinsService();
+            switch (parametroSeleccionado) {
+               // ciclos
+                case "REPORTE 1":
+                    service.reporte1(conexion,parametroSeleccionado);
+                    break;
+                case "REPORTE 6":
+                    service.reporte6(conexion,parametroSeleccionado);
+                    break;
+                case "REPORTE 11":
+
+                    service.reporte11(conexion,parametroSeleccionado);
+                    break;
+                case "REPORTE 15":
+                    service.reporte15(conexion,parametroSeleccionado);
+                    break;
             }
+        }else{
+            comboParametro.setVisible(false);
         }
     }
     private void consultar(Connection conexion) throws SQLException {
